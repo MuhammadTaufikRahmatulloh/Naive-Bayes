@@ -13,7 +13,8 @@ st.title("TA Machine Learning – Naive Bayes")
 st.write("Klasifikasi Social Network Ads")
 
 # Load dataset
-df = pd.read_csv("Social_Network_Ads.csv")
+df = pd.read_csv("app/Social_Network_Ads.csv")
+
 
 st.subheader("Dataset")
 st.dataframe(df.head())
