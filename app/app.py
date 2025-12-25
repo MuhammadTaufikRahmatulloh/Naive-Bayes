@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -11,12 +12,12 @@ from sklearn.metrics import accuracy_score
 # Page Config
 # =========================
 st.set_page_config(
-    page_title="TA Machine Learning - Naive Bayes",
+    page_title="TA Machine Learning – Naive Bayes",
     layout="centered"
 )
 
 # =========================
-# Load Dataset
+# Load Dataset (PATH BENAR)
 # =========================
 df = pd.read_csv("app/Social_Network_Ads.csv")
 
@@ -56,7 +57,7 @@ menu = st.sidebar.radio(
 )
 
 # =========================
-# HOME PAGE (INDEX)
+# HOME PAGE
 # =========================
 if menu == "Home":
     st.title("TA Machine Learning – Naive Bayes")
@@ -67,9 +68,7 @@ if menu == "Home":
     untuk melakukan klasifikasi keputusan pembelian (*Purchased*)
     berdasarkan **Age** dan **Estimated Salary**.
 
-    Dataset yang digunakan adalah **Social Network Ads** dari Kaggle.
-    Aplikasi ini dikembangkan menggunakan **Streamlit**
-    sebagai media visualisasi dan implementasi model machine learning.
+    Dataset yang digunakan adalah **Social Network Ads**.
     """)
 
     st.markdown("---")
@@ -79,6 +78,21 @@ if menu == "Home":
 
     st.subheader("📈 Evaluasi Model")
     st.write(f"Akurasi Model: **{acc:.2f}**")
+
+    # Donut Chart Distribusi Kelas
+    st.subheader("🍩 Distribusi Kelas Purchased")
+    purchase_counts = df['Purchased'].value_counts()
+
+    fig, ax = plt.subplots()
+    ax.pie(
+        purchase_counts,
+        labels=["Not Purchased", "Purchased"],
+        autopct="%1.1f%%",
+        startangle=90,
+        wedgeprops=dict(width=0.4)
+    )
+    ax.set_title("Distribusi Keputusan Pembelian")
+    st.pyplot(fig)
 
 # =========================
 # PREDICTION PAGE
@@ -111,6 +125,7 @@ elif menu == "Prediksi":
         )
 
         st.subheader("📊 Probabilitas Prediksi")
+
         prob_df = pd.DataFrame({
             "Kelas": ["Not Purchased", "Purchased"],
             "Probabilitas": prob
